@@ -1,19 +1,11 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.template import loader
+
+from .models import Caballero
+
 # Create your views here.
 
 def index(request):
-	return HttpResponse("Puto el que lee")
-def basic_json(request):
-	return HttpResponse({"name" : "puto", "type" : "dicc"})
-def testingHTML(request):
-	return HttpResponse("""
-<html>
-<head>
-<title>THIS IS A TEST FROM LA ORDEN DE LA MESITA</title>
-</head>
-<body>
-<h1>NOS HICIERON UN FAFNFIC</h1>
-</body>
-</html>
-""")
+	template = loader.get_template('orden_chatbot/index.html')
+	return HttpResponse(template.render({'caballeros': ['Nico', 'Martin', 'Brian', 'Agustin']},request))

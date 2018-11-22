@@ -1,0 +1,22 @@
+<html>
+	<head><title>Orden Chatbot</title></head>
+	<body>
+		<div>
+			<p>Bloque de django script</p>
+			{% if caballeros %}
+				<div>
+					<div>Caballeros</div>
+					<div>
+						<ul>
+							{% for caballero in caballeros %}
+								<li>{{ caballero }}</li>
+							{% endfor %}
+						</ul>
+					</div>
+				</div>
+			{% else %}
+			<p>No hay caballeros</p>
+			{% endif %}
+		</div>
+	</body>
+</html>
