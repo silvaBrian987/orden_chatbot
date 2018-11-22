@@ -1,5 +1,9 @@
+{% load static %}
 <html>
-	<head><title>Orden Chatbot</title></head>
+	<head>
+		<title>Orden Chatbot</title>
+		<script type="text/javascript" src="{% static 'orden_chatbot/angular.min.js' %}"></script>
+	</head>
 	<body>
 		<div>
 			<p>Bloque de django script</p>
@@ -9,7 +13,12 @@
 					<div>
 						<ul>
 							{% for caballero in caballeros %}
-								<li>{{ caballero }}</li>
+								<li>
+									{{ caballero.nombre }}
+									{% if caballero.puto == 1 %}
+									 - Puto
+									{% endif %}
+								</li>
 							{% endfor %}
 						</ul>
 					</div>
@@ -19,4 +28,9 @@
 			{% endif %}
 		</div>
 	</body>
+	<script type="text/javascript">
+		"{% if caballeros %}";
+		var caballeros = JSON.parse("{{ json.dumps(caballeros.__dict__) }}");
+		"{% endif %}";
+	</script>
 </html>

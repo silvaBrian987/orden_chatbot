@@ -7,5 +7,6 @@ from .models import Caballero
 # Create your views here.
 
 def index(request):
+	caballeros = Caballero.objects.all()
 	template = loader.get_template('orden_chatbot/index.html')
-	return HttpResponse(template.render({'caballeros': ['Nico', 'Martin', 'Brian', 'Agustin']},request))
+	return HttpResponse(template.render({'caballeros': caballeros},request))
