@@ -16,3 +16,9 @@ class Caballero(models.Model):
 	"""
 	nombre = models.CharField(max_length=50)
 	puto = models.IntegerField(default=0)
+class Configuracion(models.Model):
+	"""
+		Modelo de configuracion por clave-valor
+	"""
+	clave = models.CharField(max_length=100)
+	valor = models.CharField(max_length=100)

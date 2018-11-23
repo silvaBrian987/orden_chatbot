@@ -32,12 +32,12 @@
 			<p>Bloque de angular</p>
 			<div id="angular-data">
 				<ul>
-					<li ng-repeat="c in $root.caballeros">{{c.nombre}}</li>
+					<li ng-repeat="c in $root.caballeros">{{c.nombre}}<label ng-if="c.puto === 1"> - PUTO</label></li>
 				</ul>
 			</div>
 			<!-- <p ng-if="$root.facebook_data != undefined">Data cargada</p> -->
 			<button ng-click="callFacebook()">Invocar a Equestrin</button>
-			<fb:login-button scope="public_profile,email" onlogin="checkLoginState();"></fb:login-button>
+			<!-- <fb:login-button scope="public_profile,email" onlogin="checkLoginState();"></b:login-button> -->
 			{% endverbatim %}
 		</div>
 	</body>
@@ -67,7 +67,7 @@
 			}
 		});
 	</script>
-
+	<!--
 	<script>
 	  window.fbAsyncInit = function() {
 	    FB.init({
@@ -95,4 +95,5 @@
 	     fjs.parentNode.insertBefore(js, fjs);
 	   }(document, 'script', 'facebook-jssdk'));
 	</script>
+	-->
 </html>
