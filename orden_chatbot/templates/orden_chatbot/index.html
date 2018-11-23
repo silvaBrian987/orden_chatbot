@@ -1,5 +1,5 @@
 {% load static %}
-<html>
+<html id="orden_chatbot_app" ng-app="app">
 	<head>
 		<title>Orden Chatbot</title>
 		<script type="text/javascript" src="{% static 'orden_chatbot/angular.min.js' %}"></script>
@@ -27,10 +27,72 @@
 			<p>No hay caballeros</p>
 			{% endif %}
 		</div>
+		<div>
+			{% verbatim %}
+			<p>Bloque de angular</p>
+			<div id="angular-data">
+				<ul>
+					<li ng-repeat="c in $root.caballeros">{{c.nombre}}</li>
+				</ul>
+			</div>
+			<!-- <p ng-if="$root.facebook_data != undefined">Data cargada</p> -->
+			<button ng-click="callFacebook()">Invocar a Equestrin</button>
+			<fb:login-button scope="public_profile,email" onlogin="checkLoginState();"></fb:login-button>
+			{% endverbatim %}
+		</div>
 	</body>
 	<script type="text/javascript">
-		"{% if caballeros %}";
-		var caballeros = JSON.parse("{{ json.dumps(caballeros.__dict__) }}");
-		"{% endif %}";
+		var app = angular.module("app", []);
+		
+		app.config(function($httpProvider){
+			$httpProvider.defaults.xsrfCookieName = 'csrftoken';
+			$httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
+		});
+
+		app.run(function($rootScope, $http, $log){
+			$http.get("caballero").then(
+				function(response){
+					$rootScope.caballeros = response.data;
+				},
+				function(xhr){
+					$log.error(xhr);
+				});
+			$rootScope.callFacebook = function(){
+				let url = 'loginFB/';
+				$http.post(url, $rootScope.facebook_data).then(function(response){
+					$log.info(response);
+				}, function(xhr){
+					$log.error(xhr);
+				});
+			}
+		});
+	</script>
+
+	<script>
+	  window.fbAsyncInit = function() {
+	    FB.init({
+	      appId      : '1936583923313140',
+	      cookie     : true,
+	      xfbml      : true,
+	      version    : 'v3.1'
+	    });
+	      
+	    FB.AppEvents.logPageView();
+	  };
+
+	  function checkLoginState() {
+		  FB.getLoginStatus(function(response) {
+		    //console.log(response);
+		    angular.element(document.querySelector('#orden_chatbot_app')).scope().facebook_data = response;
+		  });
+		}
+
+	  (function(d, s, id){
+	     var js, fjs = d.getElementsByTagName(s)[0];
+	     if (d.getElementById(id)) {return;}
+	     js = d.createElement(s); js.id = id;
+	     js.src = "https://connect.facebook.net/en_US/sdk.js";
+	     fjs.parentNode.insertBefore(js, fjs);
+	   }(document, 'script', 'facebook-jssdk'));
 	</script>
 </html>
