@@ -13,7 +13,7 @@ import json
 # Create your views here.
 MOCK_CLIENT_ID = "2379676135438619"
 
-#@ensure_csrf_cookie
+@ensure_csrf_cookie
 def index(request):
 	caballeros = Caballero.objects.all()
 	template = loader.get_template('orden_chatbot/index.html')
@@ -36,6 +36,6 @@ def loginFB(request):
 	graph = facebook.GraphAPI(access_token=app_id.valor + "|" + app_secret.valor, version="3.1")
 	#permissions = graph.get_permissions(user_id=data["authResponse"]["userID"])
 	#permissions = graph.get_permissions(user_id="")
-	accounts = graph.get_object(id="me/accounts")
+	accounts = graph.get_object(id=MOCK_CLIENT_ID, fields='name')
 	print(accounts)
 	return HttpResponse(str(accounts))
